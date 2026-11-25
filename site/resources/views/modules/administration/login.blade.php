@@ -1,0 +1,2 @@
+@extends('administration::layout', ['title' => 'Вход администратора'])
+@section('content')<section class="admin-login"><h1>Вход администратора</h1><form method="post" action="{{ route('admin.login.store') }}">@csrf<label>Email<input type="email" name="email" required autocomplete="username" value="{{ old('email') }}" placeholder="Введите Email"></label><label>Пароль<input type="password" name="password" required autocomplete="current-password" placeholder="Введите пароль"></label><button type="submit" class="button primary">Войти</button></form></section>@endsection
