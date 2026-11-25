@@ -1,0 +1,1 @@
+<div class="range-control"><input type="range" min="{{ $min }}" max="{{ $max }}" step="1" value="{{ $min }}" aria-label="{{ $min === 0 ? 'Годы до пенсии' : 'Срок кредита в годах' }}" data-years-range><div class="range-labels"><span>{{ $min }} {{ $min === 1 ? 'год' : 'лет' }}</span><span>{{ $max }} лет</span></div></div><p class="field-error" data-error="years"></p>
