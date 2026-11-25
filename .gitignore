@@ -1,0 +1,7 @@
+/temp/
+**/.env
+**/.env.*
+!**/.env.example
+**/auth.json
+**/*.sqlite*
+/tools/downloads/
