@@ -32,6 +32,20 @@ final class PublicPagesTest extends TestCase
         $response->assertDontSee('Внутренний вклад');
     }
 
+    public function test_catalog_search_description_covers_all_five_products(): void
+    {
+        foreach (['/', '/calculator'] as $path) {
+            $response = $this->get($path)->assertOk();
+            $descriptions = $this->html($response->getContent())->query('//meta[@name="description"]');
+            self::assertSame(1, $descriptions->length);
+            $description = mb_strtolower($descriptions->item(0)->getAttribute('content'), 'UTF-8');
+
+            foreach (['ипотека', 'автокредит', 'потребительский кредит', 'пенсионные накопления', 'вклад повседневный'] as $productName) {
+                self::assertStringContainsString($productName, $description, $path);
+            }
+        }
+    }
+
     public function test_every_calculator_opens_with_empty_fields_and_zero_results(): void
     {
         foreach (['mortgage', 'auto', 'consumer', 'pension', 'deposit'] as $code) {
