@@ -1,0 +1,7 @@
+Package: php8.3*
+Pin: release o=LP-PPA-ondrej-php
+Pin-Priority: -1
+
+Package: php8.3*
+Pin: origin packages.sury.org
+Pin-Priority: -1
