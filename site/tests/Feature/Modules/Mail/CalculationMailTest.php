@@ -57,6 +57,21 @@ final class CalculationMailTest extends TestCase
         $this->postJson('/calculations/'.$id.'/email', ['email' => 'recipient@example.com'])->assertNotFound();
     }
 
+    public function test_calculations_do_not_consume_the_email_request_limit(): void
+    {
+        config(['mail.manobank_enabled' => true, 'mail.mailers.mailru.password' => 'local-test-fixture']);
+        Mail::mailer('mailru')->setSymfonyTransport(new ArrayTransport);
+
+        for ($number = 0; $number < 5; $number++) {
+            $id = $this->calculation();
+            $this->postJson('/calculations/'.$id.'/email', ['email' => 'recipient@example.com'])
+                ->assertOk()->assertJsonPath('success', true);
+        }
+
+        $this->postJson('/calculations/'.$id.'/email', ['email' => 'recipient@example.com'])->assertStatus(429);
+        $this->postJson('/calculations/consumer', ['amount' => 100000, 'years' => 1])->assertCreated();
+    }
+
     public function test_transport_failure_returns_an_error_without_exposing_provider_details(): void
     {
         $id = $this->calculation();
